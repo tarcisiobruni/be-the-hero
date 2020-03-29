@@ -25,7 +25,7 @@ module.exports = {
                 .join('ongs','ongs.id','=','incident.ong_id')    
                 .limit(5)
                 .offset((page - 1) * 5)
-                .select(['incident.*','ongs.city','ongs.email','ongs.uf','ongs.whatsapp'])
+                .select(['incident.*','ongs.city','ongs.name','ongs.email','ongs.uf','ongs.whatsapp'])
         
         response.header('X-Total-Count', count['count(*)'])
 

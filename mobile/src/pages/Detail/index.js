@@ -8,18 +8,19 @@ import * as MailComposer from 'expo-mail-composer'
 
 export default function Detail() {
     const navigation = useNavigation()
-    const message = `Olá, ${incident.name}, estou entrando em contato pois vi o caso ${incident.title}. Estou enviando ${Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(incident.value)}`;
     const route = useRoute();
-    const incident = route.params.incident
+    const incident = route.params.incident;
+    
+    const message = `Olá, ${incident.name}, estou entrando em contato pois vi o caso ${incident.title}. Estou enviando ${Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(incident.value)}`;
     function navigateBack() {
-        navigation.goBack()
+        navigation.goBack() 
     }
 
 
     function sendMail() {
         MailComposer.composeAsync({
             subject: `Heroi do Caso: ${incident.title}`,
-            recipients: [incident.title],
+            recipients: [incident.email],
             body: message
         })
     }

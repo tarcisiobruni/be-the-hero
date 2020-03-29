@@ -9,20 +9,21 @@ import api from '../../services/api'
 export default function Incidents() {
     const navigation = useNavigation()
     const [incidents, setIncidents] = useState([])
-    const [total, setTotal] = useState([])
-    const [page, setPage] = useState(0)
+    const [total, setTotal] = useState(0)
+    const [page, setPage] = useState(1)
     const [loading, setLoading] = useState(false)
+
     function navigationToDetail(incident) {
         navigation.navigate('Detail', { incident })
     }
 
     async function loadIncidents() {
         if (loading) {
-            return
+            return;
         }
 
         if (total > 0 && incidents.length === total) {
-            return
+            return;
         }
 
         setLoading(true)
@@ -33,16 +34,16 @@ export default function Incidents() {
             }
         })
 
-        setIncidents([...incidents, ...response.data])
-        setTotal(response.headers['x-total-count'])
         setLoading(false)
-        setPage(page + 1)
 
+        setIncidents([...incidents, ...response.data])
+        setPage(page + 1)
+        setTotal(response.headers['x-total-count'])
     }
 
     useEffect(() => {
         loadIncidents()
-    })
+    },[])
 
     return (
         <View style={styles.container}>
@@ -56,13 +57,13 @@ export default function Incidents() {
             <Text style={styles.title}>Bem Vindo</Text>
             <Text style={styles.description}>Escolha um dos casos abaixo e salve o dia, Herói!</Text>
 
-            <FlatList
+            <FlatList 
                 data={incidents}
                 style={styles.incidentList}
                 keyExtractor={incident => String(incident.id)}
-                // showsVerticalScrollIndicator={false}
+                showsVerticalScrollIndicator={true}
                 onEndReached={loadIncidents}
-                onEndReachedThreshold={0.2}
+                onEndReachedThreshold={0.3}
                 renderItem={({ item: incident }) => (
                     <View style={styles.incident}>
                         <Text style={[styles.incidentProperty]}>ONG</Text>
